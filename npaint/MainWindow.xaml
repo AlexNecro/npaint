@@ -1,0 +1,141 @@
+﻿<Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="npaint" Height="372" Width="528">
+    <Window.Resources>
+        <DataTemplate x:Key="ColorTemplate">
+            <Grid Width="15" Height="15" Margin="0,2,2,2" ToolTip="{Binding}" Background="#00000000">
+                <Rectangle Margin="0,0,0,0" Stroke="Black">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="{Binding}"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Margin="0,0,0,0" Stroke="#00000000">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#00FFFFFF" Offset="0.692"/>
+                            <GradientStop Color="#BFFFFFFF" Offset="1"/>
+                            <GradientStop Color="#FFFFFFFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60" MaxWidth="60" MinWidth="60" />
+            <ColumnDefinition Width="405*" />
+        </Grid.ColumnDefinitions>
+        <Canvas Grid.Column="1" Name="canvas" MouseLeftButtonUp="canvas_MouseLeftButtonUp" MouseMove="canvas_MouseMove" MouseLeftButtonDown="canvas_MouseLeftButtonDown" MouseRightButtonDown="canvas_MouseRightButtonDown">
+            <Canvas.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="White" Offset="0" />
+                    <GradientStop Color="White" Offset="1" />
+                    <GradientStop Color="#FFD8D8D8" Offset="0.443" />
+                </RadialGradientBrush>
+            </Canvas.Background>
+            <Canvas.RenderTransform>
+                <TranslateTransform X="0" Y="0" />
+            </Canvas.RenderTransform>
+        </Canvas>
+        <StackPanel Name="stackPanel1">
+            <ComboBox Height="30" Name="cbColor1" Width="58" ItemTemplate="{StaticResource ColorTemplate}" SelectionChanged="cbColor1_SelectionChanged">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}"/>
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+                <ComboBox.ItemsSource>
+                    <x:Array Type="{x:Type Color}">
+                        <Color A="255" R="255" G="255" B="255"/>
+                        <Color>Blue</Color>
+                        <Color>Red</Color>
+                        <Color>Black</Color>
+                        <Color>Cyan</Color>
+                        <Color>Magenta</Color>
+                        <Color>Orange</Color>
+                        <Color>Pink</Color>
+                        <Color>Yellow</Color>
+                        <Color>Gold</Color>
+                        <Color>Gray</Color>
+                        <Color>Green</Color>
+                        <Color>Indigo</Color>
+                        <Color>Khaki</Color>
+                    </x:Array>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+            <ComboBox Height="30" ItemTemplate="{StaticResource ColorTemplate}" Name="cbColor2" Width="58" SelectionChanged="cbColor1_SelectionChanged">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}" />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+                <ComboBox.ItemsSource>
+                    <x:ArrayExtension Type="{x:Type Color}">
+                        <Color A="255" B="255" G="255" R="255" />
+                        <Color>Blue</Color>
+                        <Color>Red</Color>
+                        <Color>Black</Color>
+                        <Color>Cyan</Color>
+                        <Color>Magenta</Color>
+                        <Color>Orange</Color>
+                        <Color>Pink</Color>
+                        <Color>Yellow</Color>
+                        <Color>Gold</Color>
+                        <Color>Gray</Color>
+                        <Color>Green</Color>
+                        <Color>Indigo</Color>
+                        <Color>Khaki</Color>
+                    </x:ArrayExtension>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+            <ComboBox Height="30" Name="cbLineThickness" Width="58" SelectionChanged="cbLineThickness_SelectionChanged">
+                <!--<ComboBoxItem Content="1"/>
+                <ComboBoxItem Content="2"/>
+                <ComboBoxItem Content="3"/>
+                <ComboBoxItem Content="4"/>
+                <ComboBoxItem Content="5"/>-->
+                <ComboBox.ItemsSource>
+                    <x:Array Type="sys:Int32" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                        <sys:Int32>1</sys:Int32>
+                        <sys:Int32>2</sys:Int32>
+                        <sys:Int32>3</sys:Int32>
+                        <sys:Int32>4</sys:Int32>
+                        <sys:Int32>5</sys:Int32>
+                    </x:Array>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+            <Button Height="27" Name="btnSelect" Width="58" Click="btnAddRect_Click">
+                <!--<StackPanel Orientation="Horizontal">-->
+                    <Image Source="/npaint;component/Images/stock_draw_selection.png" Margin="0, 0,0,0"/>
+                <!--<TextBlock Width="Auto"  Text="Move" VerticalAlignment="Center"/>
+                </StackPanel>-->
+            </Button>
+            <Button Height="27" Name="btnScale" Width="58" Click="btnAddRect_Click">
+                <Image Source="/npaint;component/icons/stock_alignment.png" Margin="0, 0,0,0"/>
+            </Button>
+            <Button Height="27" Name="btnAddRect" Width="58" Click="btnAddRect_Click">
+                <Image Source="/npaint;component/icons/stock_draw_rectangle.png" Margin="0, 0,0,0"/>
+            </Button>
+            <Button Height="27" Name="btnLine" Width="58" Click="btnAddRect_Click">
+                <Image Source="/npaint;component/icons/stock_draw_polygon.png" Margin="0, 0,0,0"/>
+            </Button>
+            <Button Height="27" Name="btnDel" Width="58" Click="btnAddRect_Click">
+                <Image Source="/npaint;component/Images/stock_calc_cancel.png" Margin="0, 0,0,0"/>
+            </Button>
+            <Button Height="27" Name="btnRotate" Width="58" Click="btnAddRect_Click">
+                <Image Source="/npaint;component/icons/stock_rotate.png" Margin="0, 0,0,0"/>
+            </Button>
+            <Button Height="27" Name="btnNew" Width="58" Click="btnNew_Click">
+                <Image Source="/npaint;component/icons/stock_new.png" Margin="0, 0,0,0"/>
+            </Button>
+            <Button Height="27" Name="btnSave" Width="58" Click="btnSave_Click">
+                <Image Source="/npaint;component/icons/stock_data_save.png" Margin="0, 0,0,0"/>
+            </Button>
+            <Button Height="27" Name="btnLoad" Width="58" Click="btnLoad_Click">
+                <Image Source="/npaint;component/icons/stock_form_open_in_design_mode.png" Margin="0, 0,0,0"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>
